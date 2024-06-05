@@ -1,0 +1,66 @@
+<!-- commet section-->
+
+<div class="app" id="app" v-cloak>
+
+  <div class="form">
+      <form @submit.prevent="submit">
+          <h1>Enter your Comment here</h1>
+
+          <label for="name">Name</label>
+          <input type="text" id="name" name="user-name" v-model="userName" required><br><br>
+
+          <label for="user-Area">Your Comments <span id="number">{{userLength}}</span></label><br><br>
+          <textarea name="user-text" id="user-Area" cols="30" rows="10" maxlength="1000" v-model="comment"
+              @input="inputUser"></textarea><br>
+          <button type="submit" class="btnn">Submit</button>
+      </form>
+  </div>
+
+  <div class="comentSection">
+      <h1>All Comments(<span id="number2">{{length}}</span>)</h1>
+      <ul id="ulList">
+          <li v-for="item in comments" :key="item.id">
+              <div class="comments">
+                  <h4><i>{{ item.name }}'s Comment</i></h4>
+                  <h2>{{ item.message }}</h2>
+                  <div class="line"></div>
+              </div>
+          </li>
+      </ul>
+  </div>
+</div>
+
+<script>
+  let app = Vue.createApp({
+      data() {
+          return {
+              userName: '',
+              comment: '',
+              userLength: 1000,
+              comments: []
+          }
+      },
+      methods: {
+          submit() {
+              let newComment = {
+                  name: this.userName,
+                  message: this.comment,
+                  id: Date.now()
+              };
+              this.comments.push(newComment);
+              this.userName = '';
+              this.comment = '';
+          },
+          inputUser() {
+              let x = this.comment;
+              this.userLength = 1000 - x.length;
+          }
+      }
+  });
+
+  app.mount('#app');
+</script>
+
+ 
+
+
